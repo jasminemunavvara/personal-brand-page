@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elevate – Personal Branding Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* GLOBAL STYLES */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f9f9f9;color:#111827;line-height:1.6;scroll-behavior:smooth;}
+a{text-decoration:none;color:inherit;}
+.container{width:90%;max-width:1200px;margin:auto;padding:60px 0;}
+
+/* NAVBAR */
+nav{position:fixed;width:100%;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);z-index:1000;}
+nav .nav-container{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+nav .logo{font-weight:700;font-size:24px;color:#6366f1;}
+nav ul{display:flex;gap:20px;}
+nav ul li{list-style:none;}
+nav ul li a{font-weight:500;transition:0.3s;color:#111827;}
+nav ul li a:hover{color:#38bdf8;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#6366f1,#38bdf8);color:white;text-align:center;padding:120px 20px;border-radius:0 0 20px 20px;position:relative;overflow:hidden;}
+.hero h1{font-size:48px;font-weight:700;margin-bottom:20px;opacity:0;transform:translateY(20px);animation:fadeInUp 1s forwards 0.3s;}
+.hero p{font-size:18px;margin-bottom:30px;opacity:0;transform:translateY(20px);animation:fadeInUp 1s forwards 0.6s;}
+.hero button{background:white;color:#38bdf8;padding:12px 28px;font-size:16px;border:none;border-radius:8px;cursor:pointer;transition:0.3s;opacity:0;transform:translateY(20px);animation:fadeInUp 1s forwards 0.9s;}
+.hero button:hover{background:#38bdf8;color:white;transform:scale(1.05);}
+
+/* SECTION TITLES */
+.section-title{text-align:center;margin-bottom:50px;}
+.section-title h2{font-size:32px;color:#111827;position:relative;display:inline-block;}
+.section-title h2::after{content:'';display:block;width:50px;height:3px;background:#6366f1;margin:10px auto 0;border-radius:2px;}
+
+/* SERVICES */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:60px;}
+.service-card{background:white;border-radius:12px;padding:30px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.05);transition:0.3s;transform:translateY(20px);opacity:0;}
+.service-card.visible{transform:translateY(0);opacity:1;}
+.service-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 15px 35px rgba(0,0,0,0.1);}
+.service-card h3{font-size:20px;color:#6366f1;margin-bottom:15px;}
+.service-card p{font-size:15px;color:#6b7280;}
+
+/* CASE STUDIES */
+.case-studies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  justify-items: center; /* Centers each card in its column */
+  align-items: start;
+  margin-bottom: 60px;
+}
+.case-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;}
+.case-card img{width:100%;display:block;transition:0.3s;}
+.case-card:hover img{transform:scale(1.1);}
+.case-card .overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);color:white;display:flex;justify-content:center;align-items:center;opacity:0;transition:0.3s;font-size:18px;font-weight:600;text-align:center;padding:20px;}
+.case-card:hover .overlay{opacity:1;}
+
+/* Center the third image on a new row */
+.case-studies .case-card:nth-child(3){
+  justify-self: center;
+}
+
+/* TESTIMONIALS ENHANCED */
+.testimonials{margin-bottom:60px;position:relative;}
+.testimonial-slider { display: flex; overflow: hidden; position: relative; gap: 20px; justify-content: center; align-items: center;}
+.testimonial-card { flex: 0 0 300px; background: linear-gradient(135deg,#6366f1,#38bdf8); color: white; padding: 30px 20px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; transition: transform 0.5s ease, opacity 0.5s ease; opacity: 0.5; display: none;}
+.testimonial-card.active { transform: scale(1.05); opacity: 1; display: block;}
+.testimonial-card .avatar { width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid white;}
+.testimonial-card .avatar img { width: 100%; height: 100%; object-fit: cover;}
+.testimonial-card p { font-size: 16px; margin-bottom: 15px; font-style: italic;}
+.testimonial-card h4 { font-size: 14px; font-weight: 600; color: #f3f4f6;}
+
+/* PRICING */
+.pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:60px;}
+.pricing-card{background:white;border-radius:12px;padding:30px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.05);transition:0.3s;cursor:pointer;}
+.pricing-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 15px 35px rgba(0,0,0,0.1);}
+.pricing-card h3{font-size:20px;color:#6366f1;margin-bottom:15px;}
+.pricing-card span{font-size:32px;font-weight:700;color:#111827;display:block;margin-bottom:20px;}
+.pricing-card p{font-size:15px;color:#6b7280;margin-bottom:20px;}
+.pricing-card button{background:#6366f1;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;transition:0.3s;}
+.pricing-card button:hover{background:#38bdf8;transform:scale(1.05);}
+
+/* CONTACT FORM */
+.contact-form{background:white;padding:50px;border-radius:12px;max-width:800px;margin:auto;box-shadow:0 10px 25px rgba(0,0,0,0.05);}
+.contact-form h3{font-size:24px;color:#6366f1;margin-bottom:30px;text-align:center;}
+.contact-form input, .contact-form textarea{width:100%;padding:12px 15px;margin-bottom:20px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;}
+.contact-form button{width:100%;background:#6366f1;color:white;padding:12px;font-size:16px;border:none;border-radius:8px;cursor:pointer;transition:0.3s;}
+.contact-form button:hover{background:#38bdf8;transform:scale(1.05);}
+
+/* MODAL */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:2000;}
+.modal-content{background:white;padding:30px 40px;border-radius:12px;max-width:500px;width:90%;position:relative;text-align:center;transform:scale(0.8);opacity:0;transition:0.3s;}
+.modal-content.active{transform:scale(1);opacity:1;}
+.modal-close{position:absolute;top:15px;right:15px;font-size:18px;font-weight:bold;color:#111827;cursor:pointer;}
+
+/* POPUP ALERT */
+.popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#6366f1;color:white;padding:25px 40px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.3);display:none;font-size:16px;z-index:2000;transition:0.3s;}
+
+/* BACK TO TOP */
+#backToTop{position:fixed;bottom:30px;right:30px;background:#6366f1;color:white;padding:12px 16px;border-radius:50%;cursor:pointer;display:none;box-shadow:0 5px 15px rgba(0,0,0,0.2);transition:0.3s;}
+#backToTop:hover{background:#38bdf8;transform:scale(1.1);}
+
+/* FOOTER */
+footer{text-align:center;padding:20px 0;color:#6b7280;font-size:14px;}
+
+/* ANIMATIONS */
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE GRID FOR MOBILE */
+@media(max-width:900px){
+  .case-studies{grid-template-columns:1fr;}
+}
+/* Subtle lavender background for sections below the hero */
+.services,
+.case-studies,
+.testimonials,
+.pricing,
+.contact-form {
+    background-color: #f5f0ff;  /* very soft lavender */
+    border-radius: 12px;        /* optional, for soft rounded corners */
+    padding: 60px 20px;         /* keeps spacing consistent */
+    margin-bottom: 40px;        /* spacing between sections */
+}
+
+/* Optional: tweak section titles for better contrast */
+.section-title h2 {
+    color: #4b3f72; /* deep lavender/purple for headings */
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-container">
+    <div class="logo">Elevate</div>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#cases">Case Studies</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Elevate Your Brand</h1>
+  <p>Professional Personal Branding & Digital Identity Solutions</p>
+  <button onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">View Pricing Plans</button>
+</section>
+
+<style>
+/* Updated HERO Section */
+.hero {
+  background: url('https://plus.unsplash.com/premium_photo-1739020102621-b9bd6291daa4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fG1pbmltYWwlMjB3ZWJzaXRlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D') no-repeat center center;
+  background-size: cover;
+  color:navy;
+  text-align: center;
+  padding: 120px 20px;
+  border-radius: 0 0 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional overlay for better text readability */
+.hero::before {
+  content: '';
+  position: absolute;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.4); /* subtle dark overlay */
+  border-radius: 0 0 20px 20px;
+}
+.hero h1, .hero p, .hero button {
+  position: relative; /* keep above overlay */
+}
+</style>
+
+<div class="container">
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-title"><h2>Our Services</h2></div>
+    <div class="service-card"> <h3>Brand Strategy</h3><p>Creating a unique roadmap for your personal or corporate brand.</p> </div>
+    <div class="service-card"> <h3>Design & Identity</h3><p>Professional logos, color palettes, and design systems for maximum impact.</p> </div>
+    <div class="service-card"> <h3>Social Media</h3><p>Crafting content and campaigns that grow your digital presence.</p> </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section class="case-studies" id="cases">
+    <div class="section-title"><h2>Case Studies</h2></div>
+
+    <!-- First Card -->
+    <div class="case-card">
+      <img src="https://media.istockphoto.com/id/1430300480/photo/collaboration-teamwork-and-web-design-team-working-on-computer-in-office-planning-logo-and.jpg?s=2048x2048&w=is&k=20&c=fqnQEVHLQ5ZvphnalC62fMQTL4OLor6Q90vzw_frTGU=" alt="Corporate Branding">
+      <div class="overlay">Corporate Branding Project</div>
+    </div>
+
+    <!-- Second Card -->
+    <div class="case-card">
+      <img src="https://media.istockphoto.com/id/1178042004/photo/notebook-with-toolls-and-notes-about-brand.jpg?s=2048x2048&w=is&k=20&c=maZ21BtuV2B5YRK-yQRUP7T30XQIe_mzyJm9_GuxPkA=" alt="Startup Brand Identity">
+      <div class="overlay">Startup Brand Identity</div>
+    </div>
+
+    <!-- Third Card (Centered) -->
+    <div class="case-card">
+      <img src="https://media.istockphoto.com/id/1186285220/photo/content-marketing-news-social-media-websites-and-advertising-concept.jpg?s=2048x2048&w=is&k=20&c=dKI1EpgFPa0CWPpelaWDDAZDZdeoRLBgZxwX7a_gYHc=" alt="Content Marketing">
+      <div class="overlay">Social Media Campaign</div>
+    </div>
+
+    <!-- Third Card (Centered) -->
+    <div class="case-card">
+      <img src="https://plus.unsplash.com/premium_photo-1661693876841-31ec6b88f7fa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fENvcnBvcmF0ZSUyMEJyYW5kaW5nJTIwUHJvamVjdCUyMGNvcnBvcmF0ZSUyMG1lZXRpbmclMkMlMjB0ZWFtd29yayUyQyUyMGJ1c2luZXNzJTIwb2ZmaWNlfGVufDB8fDB8fHww" alt="Content Marketing">
+      <div class="overlay">Website Design / UI Branding</div>
+    </div>
+    <div class="case-card">
+      <img src="https://plus.unsplash.com/premium_photo-1765466756381-bd13879c09d4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fE1hcmtldGluZyUyMENvbGxhdGVyYWwlMjAlMkYlMjBQcmludCUyMERlc2lnbnxlbnwwfHwwfHx8MA%3D%3D" alt="Content Marketing">
+      <div class="overlay">Marketing Collateral</div>
+    </div>
+
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-title"><h2>What Our Clients Say</h2></div>
+    <div class="testimonial-slider">
+      <div class="testimonial-card">
+        <div class="avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Johnson"></div>
+        <p>"Elevate transformed my brand! Highly professional and creative team."</p>
+        <h4>– Alex Johnson</h4>
+      </div>
+      <div class="testimonial-card">
+        <div class="avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Lopez"></div>
+        <p>"The design and strategy exceeded my expectations. Truly a premium experience."</p>
+        <h4>– Maria Lopez</h4>
+      </div>
+      <div class="testimonial-card">
+        <div class="avatar"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Sharma"></div>
+        <p>"I feel confident with my personal branding thanks to Elevate."</p>
+        <h4>– Priya Sharma</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-title"><h2>Pricing Plans</h2></div>
+    <div class="pricing-card"> <h3>Starter</h3><span>$499</span><p>Essential branding package for individuals</p>
+      <button onclick="openModal('Starter','$499',['Basic Brand Strategy','Logo & Identity','1 Month Support'])">Select Plan</button> 
+    </div>
+    <div class="pricing-card"> <h3>Professional</h3><span>$999</span><p>Comprehensive personal branding + digital strategy</p>
+      <button onclick="openModal('Professional','$999',['Full Brand Strategy','Logo & Identity','Social Media Campaign','3 Months Support'])">Select Plan</button> 
+    </div>
+    <div class="pricing-card"> <h3>Enterprise</h3><span>$1499</span><p>Full-scale branding and identity solutions for companies</p>
+      <button onclick="openModal('Enterprise','$1499',['Complete Branding','Identity Systems','Campaign Management','Dedicated Support'])">Select Plan</button> 
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-form" id="contact">
+    <h3>Contact Us</h3>
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <textarea id="message" placeholder="Your Message" rows="6" required></textarea>
+    <button onclick="sendMessage()">Send Message</button>
+  </section>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="planModal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalPrice"></p>
+    <ul id="modalFeatures"></ul>
+    <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">Message Sent Successfully!</div>
+
+<!-- BACK TO TOP -->
+<div id="backToTop">&#8679;</div>
+
+<!-- FOOTER -->
+<footer>&copy; 2026 Elevate Branding Studio. All Rights Reserved.</footer>
+
+<script>
+// Scroll animations
+const serviceCards=document.querySelectorAll('.service-card');
+const observer=new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(entry.isIntersecting){entry.target.classList.add('visible');} });},{threshold:0.2});
+serviceCards.forEach(card=>observer.observe(card));
+
+// Back to top
+const backToTop=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{ backToTop.style.display=(window.scrollY>500)?'block':'none'; });
+backToTop.addEventListener('click',()=>{ window.scrollTo({top:0,behavior:'smooth'}); });
+
+// Testimonials with click-to-cycle
+const testimonials = document.querySelectorAll('.testimonial-card');
+let tIndex = 0;
+
+function showTestimonial(index){
+  testimonials.forEach((t,i)=>{
+    t.classList.remove('active'); 
+    t.style.display='none';
+  });
+  testimonials[index].style.display='block';
+  testimonials[index].classList.add('active');
+}
+
+// Show the first testimonial initially
+showTestimonial(tIndex);
+
+// Automatic cycling (optional, still works)
+const autoCycle = setInterval(()=>{
+  tIndex = (tIndex + 1) % testimonials.length;
+  showTestimonial(tIndex);
+}, 4000);
+
+// Click on testimonial to go to next
+testimonials.forEach(card=>{
+  card.addEventListener('click', ()=>{
+    tIndex = (tIndex + 1) % testimonials.length;
+    showTestimonial(tIndex);
+  });
+});
+showTestimonial(tIndex);
+setInterval(()=>{ tIndex = (tIndex+1)%testimonials.length; showTestimonial(tIndex); },4000);
+
+// Contact form popup
+function sendMessage(){
+  const name=document.getElementById('name').value;
+  const email=document.getElementById('email').value;
+  const message=document.getElementById('message').value;
+  if(name && email && message){
+    const popup=document.getElementById('popup');
+    popup.style.display='block';
+    setTimeout(()=>{popup.style.display='none';},2000);
+    document.getElementById('name').value=''; document.getElementById('email').value=''; document.getElementById('message').value='';
+  } else { alert('Please fill all fields!'); }
+}
+
+// Modal functions
+function openModal(title, price, features){
+  const modal=document.getElementById('planModal');
+  const modalContent=modal.querySelector('.modal-content');
+  document.getElementById('modalTitle').innerText=title;
+  document.getElementById('modalPrice').innerText=price;
+  const ul=document.getElementById('modalFeatures'); ul.innerHTML='';
+  features.forEach(f=>{ const li=document.createElement('li'); li.innerText=f; ul.appendChild(li); });
+  modal.style.display='flex';
+  setTimeout(()=>{ modalContent.classList.add('active'); },50);
+}
+function closeModal(){
+  const modal=document.getElementById('planModal');
+  const modalContent=modal.querySelector('.modal-content');
+  modalContent.classList.remove('active');
+  setTimeout(()=>{ modal.style.display='none'; },300);
+}
+</script>
+</body>
+</html>
